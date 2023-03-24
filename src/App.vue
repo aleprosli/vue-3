@@ -6,41 +6,56 @@ import TheWelcome from './components/TheWelcome.vue'
 <script>
 //npm install axios
 import axios from 'axios'
+import {mapGetters, mapActions, mapMutations } from 'vuex'
+import store from './store'
+import { computed } from '@vue/reactivity'
 
 //export ni defauly
 export default {
-  data(){
-    return {
-      params: [
+  // data(){
+  //   return {
+  //     params: [
 
-      ]
-    }
-  },
+  //     ]
+  //   }
+  // },
 
 //then kena ada method
+  // methods: {
+  //   //sini declare nama function 
+  //   getProductCategory(){
+  //     //panggil axios get url , lps response, then -> kita nak buat apa
+  //    .then(response => {
+  //       //this.params refer array dalam data di atas. response.data kita tgk dalam output yg di fetch dlm console contoh
+  //       //response = [data => []]
+  //       this.params = response.data
+  //       console.log('response', this.params)
+  //     })
+  //   }
+  // },
   methods: {
-    //sini declare nama function 
-    getProductCategory(){
-      //panggil axios get url , lps response, then -> kita nak buat apa
-      axios.get('https://dummyjson.com/products/categories').then(response => {
-        //this.params refer array dalam data di atas. response.data kita tgk dalam output yg di fetch dlm console contoh
-        //response = [data => []]
-        this.params = response.data
-        console.log('response', this.params)
-      })
-    }
+    ...mapActions({
+      getProductCategory: 'getProductCategory'
+    })
   },
 
   //kena mounted
   mounted(){
     //amik nama function yg kita nak declare
     this.getProductCategory()
+    // console.log('store', store)
+  },
+
+  computed: {
+    ...mapGetters({
+      data: 'data'
+    })
   }
 }
 </script>
 
 <template>
-   <li v-for="item in params">{{ item }}</li>
+   <li v-for="item in data">{{ item }}</li>
 </template>
 
 <style scoped>
